@@ -5,8 +5,8 @@ import seaborn as sns
 from sklearn.preprocessing import LabelEncoder, StandardScaler
 
 # --- 1. Загрузка датасета ---
-url = "https://archive.ics.uci.edu/ml/machine-learning-databases/parkinsons/parkinsons.data"
-df = pd.read_csv(url)
+csv_path = './data/student-scores.csv'
+df = pd.read_csv(csv_path)
 
 print("Первые строки таблицы:")
 print(df.head())
@@ -15,7 +15,7 @@ print(df.info())
 
 # --- 2. Визуализация распределения целевого признака ---
 plt.figure(figsize=(8, 4))
-sns.histplot(df['math score'], bins=15, kde=True)
+sns.histplot(df['math_score'], bins=15, kde=True)
 plt.title("Распределение результатов по математике")
 plt.xlabel("Баллы")
 plt.ylabel("Количество учеников")
@@ -28,14 +28,14 @@ print(df.isnull().sum())
 if df.isnull().sum().sum() == 0:
     print("\n⚠️ Ошибка: в данных нет пропусков! Создаём искусственные пропуски для демонстрации...")
     # Сгенерируем пропуски случайно в 1% данных
-    df.loc[df.sample(frac=0.01).index, 'reading score'] = np.nan
+    df.loc[df.sample(frac=0.01).index, 'part_time_job'] = np.nan
 
 # Повторная проверка
 print("\nПосле возможной генерации пропусков:")
 print(df.isnull().sum())
 
 # Заполним пропуски средним значением по столбцу
-df['reading score'].fillna(df['reading score'].mean(), inplace=True)
+df['part_time_job'].fillna(df['part_time_job'].mean(), inplace=True)
 
 # --- 4. Преобразование категориальных данных ---
 cat_cols = df.select_dtypes(include=['object']).columns
